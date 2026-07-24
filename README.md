@@ -1,28 +1,28 @@
-# 🍽️ MealIt
+#  MealIt
 
 MealIt is a full-stack recipe and meal discovery web application built with Laravel and PHP. It helps users discover recipes, filter meals based on their preferences, generate recipes using AI, compare recipes, and save their favorite recipes.
 
-## ✨ Features
+##  Features
 
-- 🔍 Explore and search recipes
-- 🍴 Filter recipes by:
+-  Explore and search recipes
+-  Filter recipes by:
   - Cuisine
   - Meal type
   - Difficulty
   - Spice level
   - Dietary restrictions
   - Maximum cooking time
-- 🤖 AI-powered recipe generation
-- 📊 Compare different recipes
-- ⭐ Save favorite recipes
-- 📖 View detailed recipe information
-- 🥗 Nutritional information
-- 🌍 Web recipe integration
-- 👤 User authentication and profiles
-- 📱 Responsive design
-- 🌙 Dark mode
+-  AI-powered recipe generation
+-  Compare different recipes
+-  Save favorite recipes
+-  View detailed recipe information
+-  Nutritional information
+-  Web recipe integration
+-  User authentication and profiles
+-  Responsive design
+-  Dark mode
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 - PHP
 - Laravel
@@ -35,7 +35,7 @@ MealIt is a full-stack recipe and meal discovery web application built with Lara
 - REST APIs
 - AI API Integration
 
-## 📂 Project Structure
+##  Project Structure
 
 ```text
 app/
