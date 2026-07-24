@@ -50,6 +50,6 @@ tests/
 artisan
 composer.json
 package.json
-# MealIt
 
-**Live Website:** https://your-live-domain.com
+
+## Visit MealIt Live Website (https://mealit.rf.gd)
