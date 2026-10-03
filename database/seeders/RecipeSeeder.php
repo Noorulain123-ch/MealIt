@@ -7,148 +7,311 @@ use App\Models\Category;
 use App\Models\Ingredient;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class RecipeSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
     {
-        $pakistaniCuisine = Category::where('name', 'Pakistani')->first();
-        $italianCuisine = Category::where('name', 'Italian')->first();
-        $dinnerMeal = Category::where('name', 'Dinner')->first();
-        $lunchMeal = Category::where('name', 'Lunch')->first();
+        /*
+        |--------------------------------------------------------------------------
+        | OLD 3 RECIPES
+        |--------------------------------------------------------------------------
+        */
 
-        // 1. Biryani
-        $biryani = Recipe::create([
-            'category_id'     => $dinnerMeal->id,
-            'title'           => 'Authentic Chicken Biryani',
-            'slug'            => 'authentic-chicken-biryani',
-            'description'     => 'Fragrant Basmati rice layered with juicy, spicy marinated chicken, fresh mint, and caramelized onions.',
-            'instructions'    => json_encode([
-                '1. Wash and soak basmati rice for 30 minutes, then boil with spices till 70% cooked.',
-                '2. Heat ghee, fry onions till golden brown, then set half aside for garnishing.',
-                '3. Add chicken, garlic, ginger, and biryani spices; cook until chicken is tender.',
-                '4. Layer chicken gravy and boiled rice in a heavy pot.',
-                '5. Garnish with caramelized onions, saffron milk, fresh mint, and coriander.',
-                '6. Seal the pot and cook on low heat (dum) for 15-20 minutes.'
-            ]),
-            'cuisine_type'    => 'Pakistani',
-            'meal_type'       => 'dinner',
-            'difficulty'      => 'medium',
-            'cooking_time'    => 50,
-            'servings'        => 4,
-            'calories'        => 650,
-            'protein'         => 38,
-            'carbs'           => 70,
-            'fats'            => 22,
-            'spice_level'     => 'spicy',
-            'is_halal'        => true,
-            'is_featured'     => true,
-            'is_seasonal'     => true,
-            'season_tag'      => 'Eid',
-            'image_url'       => 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&q=80',
-            'health_score'    => 6,
-            'avg_rating'      => 4.9,
-            'review_count'    => 1,
-            'view_count'      => 342,
-        ]);
+        $pakistaniCategory = Category::where('name', 'Pakistani')->first();
+        $italianCategory = Category::where('name', 'Italian')->first();
+        $dinnerCategory = Category::where('name', 'Dinner')->first();
+        $lunchCategory = Category::where('name', 'Lunch')->first();
 
-        // Attach ingredients
-        $this->attachIngredient($biryani, 'Chicken Breast', '600g');
-        $this->attachIngredient($biryani, 'Basmati Rice', '400g');
-        $this->attachIngredient($biryani, 'Ghee', '3 tbsp');
-        $this->attachIngredient($biryani, 'Onion', '2 large');
-        $this->attachIngredient($biryani, 'Tomato', '2 medium');
-        $this->attachIngredient($biryani, 'Yogurt', '150g');
-        $this->attachIngredient($biryani, 'Garam Masala', '2 tsp');
+        /*
+        |--------------------------------------------------------------------------
+        | 1. Authentic Chicken Biryani
+        |--------------------------------------------------------------------------
+        */
 
-        // 2. Chicken Karahi
-        $karahi = Recipe::create([
-            'category_id'     => $dinnerMeal->id,
-            'title'           => 'Traditional Peshawari Chicken Karahi',
-            'slug'            => 'traditional-peshawari-chicken-karahi',
-            'description'     => 'A culinary masterpiece from Peshawar featuring tender chicken wok-cooked with tomatoes, garlic, ginger, and green chilies.',
-            'instructions'    => json_encode([
-                '1. Heat oil or ghee in a wok (karahi) and fry chicken on high heat until it changes color.',
-                '2. Add ginger-garlic paste and salt, and sauté for 3 minutes.',
-                '3. Add halved tomatoes. Cover and cook on medium heat until tomato skins loosen.',
-                '4. Remove skins, crush tomatoes, and stir-fry until oil separates.',
-                '5. Add freshly crushed black pepper, green chilies, and julienned ginger.',
-                '6. Serve hot with naan or roti.'
-            ]),
-            'cuisine_type'    => 'Pakistani',
-            'meal_type'       => 'dinner',
-            'difficulty'      => 'easy',
-            'cooking_time'    => 35,
-            'servings'        => 3,
-            'calories'        => 480,
-            'protein'         => 42,
-            'carbs'           => 12,
-            'fats'            => 28,
-            'spice_level'     => 'spicy',
-            'is_halal'        => true,
-            'is_featured'     => true,
-            'image_url'       => 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=800&q=80',
-            'health_score'    => 7,
-            'avg_rating'      => 4.8,
-            'review_count'    => 1,
-            'view_count'      => 210,
-        ]);
+        $biryani = Recipe::updateOrCreate(
+            ['slug' => 'authentic-chicken-biryani'],
+            [
+                'title' => 'Authentic Chicken Biryani',
+                'description' => 'A flavorful and aromatic Pakistani chicken biryani.',
+                'instructions' => 'Marinate chicken with spices and yogurt. Cook onions until golden. Add chicken and cook until tender. Add rice and cook until fully done. Layer rice and chicken, then steam on low heat.',
+                'prep_time' => 30,
+                'cook_time' => 60,
+                'servings' => 6,
+                'difficulty' => 'Medium',
+                'category_id' => $pakistaniCategory?->id,
+                'cuisine_type' => 'Pakistani',
+                'user_id' => null,
+                'video_url' => null,
+                'is_ai_generated' => false,
+                'is_seasonal' => false,
+            ]
+        );
 
-        $this->attachIngredient($karahi, 'Chicken Breast', '500g');
-        $this->attachIngredient($karahi, 'Tomato', '4 medium');
-        $this->attachIngredient($karahi, 'Garlic Cloves', '4 cloves');
-        $this->attachIngredient($karahi, 'Ginger Root', '2 inch');
-        $this->attachIngredient($karahi, 'Green Chilies', '4 pcs');
-        $this->attachIngredient($karahi, 'Ghee', '4 tbsp');
-        $this->attachIngredient($karahi, 'Red Chili Powder', '1 tsp');
+        $biryaniIngredients = [
+            ['name' => 'Chicken', 'quantity' => '1', 'unit' => 'kg'],
+            ['name' => 'Basmati Rice', 'quantity' => '1', 'unit' => 'kg'],
+            ['name' => 'Yogurt', 'quantity' => '1', 'unit' => 'cup'],
+            ['name' => 'Onions', 'quantity' => '3', 'unit' => 'large'],
+            ['name' => 'Tomatoes', 'quantity' => '3', 'unit' => 'medium'],
+            ['name' => 'Biryani Masala', 'quantity' => '2', 'unit' => 'tbsp'],
+        ];
 
-        // 3. Pasta Penne Arrabbiata
-        $pasta = Recipe::create([
-            'category_id'     => $lunchMeal->id,
-            'title'           => 'Spicy Pasta Penne Arrabbiata',
-            'slug'            => 'spicy-pasta-penne-arrabbiata',
-            'description'     => 'Classic spicy Italian pasta dish with penne cooked in a rich, fiery garlic and tomato sauce.',
-            'instructions'    => json_encode([
-                '1. Boil penne pasta in salted water until al dente, then drain.',
-                '2. Heat olive oil in a pan, add minced garlic and crushed red pepper flakes.',
-                '3. Add crushed tomatoes, tomato paste, and simmer for 15 minutes.',
-                '4. Stir in fresh basil leaves and adjust salt.',
-                '5. Toss the penne pasta in the arrabbiata sauce.',
-                '6. Serve hot garnished with freshly grated parmesan cheese.'
-            ]),
-            'cuisine_type'    => 'Italian',
-            'meal_type'       => 'lunch',
-            'difficulty'      => 'easy',
-            'cooking_time'    => 25,
-            'servings'        => 2,
-            'calories'        => 380,
-            'protein'         => 12,
-            'carbs'           => 58,
-            'fats'            => 10,
-            'spice_level'     => 'medium',
-            'is_halal'        => true,
-            'is_vegetarian'   => true,
-            'is_featured'     => false,
-            'image_url'       => 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&q=80',
-            'health_score'    => 8,
-            'avg_rating'      => 4.5,
-            'review_count'    => 0,
-            'view_count'      => 98,
-        ]);
+        foreach ($biryaniIngredients as $ingredientData) {
+            $ingredient = Ingredient::firstOrCreate(
+                ['name' => $ingredientData['name']],
+                [
+                    'slug' => Str::slug($ingredientData['name']),
+                ]
+            );
 
-        $this->attachIngredient($pasta, 'Pasta (Penne)', '200g');
-        $this->attachIngredient($pasta, 'Tomato', '3 medium');
-        $this->attachIngredient($pasta, 'Garlic Cloves', '3 cloves');
-        $this->attachIngredient($pasta, 'Olive Oil', '2 tbsp');
-        $this->attachIngredient($pasta, 'Red Chili Powder', '1 tsp');
-        $this->attachIngredient($pasta, 'Cheddar Cheese', '50g'); // Substitute for parmesan
-    }
-
-    private function attachIngredient($recipe, $name, $quantity)
-    {
-        $ing = Ingredient::where('name', $name)->first();
-        if ($ing) {
-            $recipe->ingredients()->attach($ing->id, ['quantity' => $quantity]);
+            $biryani->ingredients()->syncWithoutDetaching([
+                $ingredient->id => [
+                    'quantity' => $ingredientData['quantity'],
+                    'unit' => $ingredientData['unit'],
+                ],
+            ]);
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | 2. Traditional Peshawari Chicken Karahi
+        |--------------------------------------------------------------------------
+        */
+
+        $karahi = Recipe::updateOrCreate(
+            ['slug' => 'traditional-peshawari-chicken-karahi'],
+            [
+                'title' => 'Traditional Peshawari Chicken Karahi',
+                'description' => 'A traditional spicy and flavorful Peshawari chicken karahi.',
+                'instructions' => 'Heat oil and fry chicken until lightly golden. Add tomatoes, ginger, garlic and spices. Cook until tomatoes soften and oil separates. Garnish with fresh coriander and green chilies.',
+                'prep_time' => 15,
+                'cook_time' => 40,
+                'servings' => 4,
+                'difficulty' => 'Medium',
+                'category_id' => $pakistaniCategory?->id,
+                'cuisine_type' => 'Pakistani',
+                'user_id' => null,
+                'video_url' => null,
+                'is_ai_generated' => false,
+                'is_seasonal' => false,
+            ]
+        );
+
+        $karahiIngredients = [
+            ['name' => 'Chicken', 'quantity' => '1', 'unit' => 'kg'],
+            ['name' => 'Tomatoes', 'quantity' => '6', 'unit' => 'medium'],
+            ['name' => 'Green Chilies', 'quantity' => '6', 'unit' => 'pieces'],
+            ['name' => 'Ginger', 'quantity' => '2', 'unit' => 'tbsp'],
+            ['name' => 'Garlic', 'quantity' => '1', 'unit' => 'tbsp'],
+            ['name' => 'Black Pepper', 'quantity' => '1', 'unit' => 'tsp'],
+        ];
+
+        foreach ($karahiIngredients as $ingredientData) {
+            $ingredient = Ingredient::firstOrCreate(
+                ['name' => $ingredientData['name']],
+                [
+                    'slug' => Str::slug($ingredientData['name']),
+                ]
+            );
+
+            $karahi->ingredients()->syncWithoutDetaching([
+                $ingredient->id => [
+                    'quantity' => $ingredientData['quantity'],
+                    'unit' => $ingredientData['unit'],
+                ],
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | 3. Spicy Pasta Penne Arrabbiata
+        |--------------------------------------------------------------------------
+        */
+
+        $pasta = Recipe::updateOrCreate(
+            ['slug' => 'spicy-pasta-penne-arrabbiata'],
+            [
+                'title' => 'Spicy Pasta Penne Arrabbiata',
+                'description' => 'A classic Italian pasta with a spicy tomato sauce.',
+                'instructions' => 'Boil pasta until al dente. Prepare tomato sauce with garlic, chili flakes and tomatoes. Mix cooked pasta with the sauce and serve hot with cheese and fresh herbs.',
+                'prep_time' => 10,
+                'cook_time' => 25,
+                'servings' => 4,
+                'difficulty' => 'Easy',
+                'category_id' => $italianCategory?->id,
+                'cuisine_type' => 'Italian',
+                'user_id' => null,
+                'video_url' => null,
+                'is_ai_generated' => false,
+                'is_seasonal' => false,
+            ]
+        );
+
+        $pastaIngredients = [
+            ['name' => 'Penne Pasta', 'quantity' => '400', 'unit' => 'g'],
+            ['name' => 'Tomatoes', 'quantity' => '4', 'unit' => 'medium'],
+            ['name' => 'Garlic', 'quantity' => '4', 'unit' => 'cloves'],
+            ['name' => 'Red Chili Flakes', 'quantity' => '1', 'unit' => 'tsp'],
+            ['name' => 'Olive Oil', 'quantity' => '3', 'unit' => 'tbsp'],
+            ['name' => 'Parmesan Cheese', 'quantity' => '50', 'unit' => 'g'],
+        ];
+
+        foreach ($pastaIngredients as $ingredientData) {
+            $ingredient = Ingredient::firstOrCreate(
+                ['name' => $ingredientData['name']],
+                [
+                    'slug' => Str::slug($ingredientData['name']),
+                ]
+            );
+
+            $pasta->ingredients()->syncWithoutDetaching([
+                $ingredient->id => [
+                    'quantity' => $ingredientData['quantity'],
+                    'unit' => $ingredientData['unit'],
+                ],
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | NEW 20 RECIPES
+        |--------------------------------------------------------------------------
+        */
+
+        // Get the first available category for the additional recipes.
+        $defaultCategoryId = DB::table('categories')->value('id');
+
+        $recipes = [
+            [
+                'title' => 'Chicken Biryani',
+                'slug' => 'chicken-biryani',
+                'cuisine_type' => 'Pakistani',
+            ],
+            [
+                'title' => 'Creamy Chicken Pasta',
+                'slug' => 'creamy-chicken-pasta',
+                'cuisine_type' => 'Italian',
+            ],
+            [
+                'title' => 'Vegetable Salad',
+                'slug' => 'vegetable-salad',
+                'cuisine_type' => 'Mediterranean',
+            ],
+            [
+                'title' => 'Classic Pancakes',
+                'slug' => 'classic-pancakes',
+                'cuisine_type' => 'American',
+            ],
+            [
+                'title' => 'Beef Tacos',
+                'slug' => 'beef-tacos',
+                'cuisine_type' => 'Mexican',
+            ],
+            [
+                'title' => 'Grilled Chicken Sandwich',
+                'slug' => 'grilled-chicken-sandwich',
+                'cuisine_type' => 'American',
+            ],
+            [
+                'title' => 'Lentil Curry',
+                'slug' => 'lentil-curry',
+                'cuisine_type' => 'Indian',
+            ],
+            [
+                'title' => 'Fresh Fruit Smoothie',
+                'slug' => 'fresh-fruit-smoothie',
+                'cuisine_type' => 'International',
+            ],
+            [
+                'title' => 'Vegetable Pasta',
+                'slug' => 'vegetable-pasta',
+                'cuisine_type' => 'Italian',
+            ],
+            [
+                'title' => 'Healthy Chicken Soup',
+                'slug' => 'healthy-chicken-soup',
+                'cuisine_type' => 'International',
+            ],
+            [
+                'title' => 'Chocolate Cake',
+                'slug' => 'chocolate-cake',
+                'cuisine_type' => 'American',
+            ],
+            [
+                'title' => 'French Toast',
+                'slug' => 'french-toast',
+                'cuisine_type' => 'French',
+            ],
+            [
+                'title' => 'Classic Hummus',
+                'slug' => 'classic-hummus',
+                'cuisine_type' => 'Middle Eastern',
+            ],
+            [
+                'title' => 'Grilled Chicken Breast',
+                'slug' => 'grilled-chicken-breast',
+                'cuisine_type' => 'American',
+            ],
+            [
+                'title' => 'Mediterranean Chickpea Salad',
+                'slug' => 'mediterranean-chickpea-salad',
+                'cuisine_type' => 'Mediterranean',
+            ],
+            [
+                'title' => 'Grilled Beef Steak',
+                'slug' => 'grilled-beef-steak',
+                'cuisine_type' => 'American',
+            ],
+            [
+                'title' => 'Spicy Vegetable Curry',
+                'slug' => 'spicy-vegetable-curry',
+                'cuisine_type' => 'Indian',
+            ],
+            [
+                'title' => 'Grilled Salmon',
+                'slug' => 'grilled-salmon',
+                'cuisine_type' => 'Mediterranean',
+            ],
+            [
+                'title' => 'Mango Lassi',
+                'slug' => 'mango-lassi',
+                'cuisine_type' => 'Pakistani',
+            ],
+            [
+                'title' => 'Keto Egg Breakfast',
+                'slug' => 'keto-egg-breakfast',
+                'cuisine_type' => 'International',
+            ],
+        ];
+
+        foreach ($recipes as $recipe) {
+            DB::table('recipes')->updateOrInsert(
+                ['slug' => $recipe['slug']],
+                [
+                    'title' => $recipe['title'],
+                    'description' => 'A delicious and easy-to-prepare ' . $recipe['title'] . '.',
+                    'instructions' => 'Prepare the ingredients. Cook according to the recipe requirements. Serve fresh and enjoy.',
+                    'prep_time' => 15,
+                    'cook_time' => 30,
+                    'servings' => 4,
+                    'difficulty' => 'Easy',
+                    'category_id' => $defaultCategoryId,
+                    'cuisine_type' => $recipe['cuisine_type'],
+                    'user_id' => null,
+                    'video_url' => null,
+                    'is_ai_generated' => false,
+                    'is_seasonal' => false,
+                    'updated_at' => now(),
+                    'created_at' => now(),
+                ]
+            );
+        }
+
+        $this->command->info('23 recipes are now available in MealIt!');
     }
 }
