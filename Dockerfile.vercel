@@ -35,4 +35,4 @@ RUN mkdir -p storage/framework/cache \
 ENV MYSQL_ATTR_SSL_CA=/etc/ssl/certs/ca-certificates.crt
 ENV SERVER_NAME=:80
 
-CMD ["sh", "-c", "frankenphp php-server --root /app/public --listen :${PORT:-80}"]
+CMD ["sh", "-c", "php artisan migrate --force && frankenphp php-server --root /app/public --listen :${PORT:-80}"]
