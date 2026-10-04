@@ -5,7 +5,7 @@ MealIt is a full-stack recipe and meal discovery web application built with Lara
 
 ##  Live Website
 
-[Visit MealIt Live Website](https://mealit.rf.gd)
+[Visit MealIt Live Website][(https://mealit1-n15lt9m1g-engineernoorulainch-1861.vercel.app/))
 
 ## Features
 
